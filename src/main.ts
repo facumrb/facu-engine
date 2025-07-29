@@ -1,21 +1,7 @@
 import './styles.css';
 
-// 1. Define types for language codes and translation keys
-type Lang = 'en' | 'es' | 'de';
-type TranslationKey =
-  | 'navHome'
-  | 'navAbout'
-  | 'navSkills'
-  | 'navProjects'
-  | 'navBlog'
-  | 'navContact'
-  | 'homeTitle'
-  | 'homeContent';
-
-type Translations = Record<Lang, Record<TranslationKey, string>>;
-
-// 2. Typed translations object
-const translations: Translations = {
+// Language translations
+const translations: Record<string, Record<string, string>> = {
   en: {
     navHome:    "Home",
     navAbout:   "About Me",
@@ -48,12 +34,14 @@ const translations: Translations = {
   }
 };
 
-// 3. Type-safe updateLanguage function
-function updateLanguage(lang: Lang) {
+function updateLanguage(lang: string) {
+  // Update <html> lang attribute
   document.documentElement.lang = lang;
+
+  // For every element with data-i18n-key, set its text
   const elements = document.querySelectorAll<HTMLElement>('[data-i18n-key]');
   elements.forEach(el => {
-    const key = el.getAttribute('data-i18n-key') as TranslationKey | null;
+    const key = el.getAttribute('data-i18n-key');
     if (key && translations[lang][key]) {
       el.textContent = translations[lang][key];
     } else {
@@ -62,13 +50,20 @@ function updateLanguage(lang: Lang) {
   });
 }
 
-// 4. Safer DOM access and initialization
 document.addEventListener('DOMContentLoaded', () => {
   const selector = document.getElementById('language-selector') as HTMLSelectElement | null;
-  if (!selector) return;
+  // Initialize page in English
   updateLanguage('en');
-  selector.addEventListener('change', e => {
-    const target = e.target as HTMLSelectElement;
-    updateLanguage(target.value as Lang);
-  });
+
+  // Change language on selector change
+  if (selector) {
+    selector.addEventListener('change', e => {
+      const target = e.target as HTMLSelectElement;
+      if (translations[target.value]) {
+        updateLanguage(target.value);
+      }
+    });
+  } else {
+    console.warn('Language selector element not found. Please ensure there is a <select id="language-selector"> in your HTML with options for en, es, de.');
+  }
 });

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portfolio – Home</title>
+  <title>Contact – Portfolio</title>
   <link rel="stylesheet" href="../src/styles.css">
 </head>
 <body>
@@ -16,7 +16,6 @@
       <a href="blog.html" data-i18n-key="navBlog">Blog</a>
       <a href="contact.html" data-i18n-key="navContact">Contact</a>
     </nav>
-    
     <!-- Language selector -->
     <!--
     <select id="language-selector">
@@ -26,9 +25,19 @@
     </select>
     -->
   </header>
-  <main id="home">
-    <h1 data-i18n-key="homeTitle"></h1>
-    <p data-i18n-key="homeContent"></p>
+  <main id="contact">
+    <h1 data-i18n-key="contactTitle">Contact</h1>
+    <section data-i18n-key="contactContent">
+      <form>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message"></textarea><br>
+        <button type="submit">Send</button>
+      </form>
+    </section>
   </main>
   <script src="../dist/main.js"></script>
 </body>
